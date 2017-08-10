@@ -1,0 +1,7 @@
+html , body  {
+  min-width : 500px ;
+}
+
+.content {
+  padding: 20px;
+}
