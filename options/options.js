@@ -71,7 +71,7 @@ function addProfileToAList(profile) {
   listItem.querySelector('.panel-heading').innerHTML = profile.name; // profile name  Heading
   listItem.querySelector('.profileNameInput').value = profile.name; // profile name Input
   listItem.querySelector('.regex').value = profile.regex; // regex Input
-  listItem.querySelector('.template').value = profile.template; // regex Input
+  listItem.querySelector('.template').value = profile.template; // template Input
 
   profilesList.appendChild(listItem);
 
