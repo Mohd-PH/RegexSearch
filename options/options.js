@@ -40,17 +40,17 @@ function addProfileToAList(profile) {
   var listItem = document.createElement("div");
   listItem.setAttribute("class", "col-sm-6");
   listItem.innerHTML = '<div class="panel panel-default  ">\
-  <div class="panel-heading" storageID="' + profile.id + '"> ' + profile.name + '</div>\
+  <div class="panel-heading" storageID="' + profile.id + '"></div>\
   <div class="panel-body">\
   <div class="form-group">\
     <label for="profileNameInput">Profile Name</label>\
-    <input type="text" class="form-control" storageID="' + profile.id + '" name="profileNameInput" placeholder="Name" value="' + profile.name + '" >\
+    <input type="text" class="form-control profileNameInput" storageID="' + profile.id + '" name="profileNameInput" placeholder="Name">\
   </div>\
   <div class="form-group">\
     <label for="regex">Regex</label>\
     <div class="input-group">\
       <span class="input-group-addon" id="slash-addon1">/</span>\
-      <input type="text" class="form-control" storageID="' + profile.id + '" name="regex"  placeholder="Regular Expression" value="' + profile.regex + '">\
+      <input type="text" class="form-control regex" storageID="' + profile.id + '" name="regex"  placeholder="Regular Expression">\
       <span class="input-group-addon" id="slash-addon2">/</span>\
     </div>\
   </div>\
@@ -61,13 +61,18 @@ function addProfileToAList(profile) {
   </div>\
   <div class="form-group">\
     <label for="template">Type a custom template (Optional)</label>\
-    <input type="text" class="form-control" storageID="' + profile.id + '" name="template" placeholder="template" value="' + profile.template +'">\
+    <input type="text" class="form-control template" storageID="' + profile.id + '" name="template" placeholder="template" >\
   </div>\
   <div class=""  >\
     <button class="btn btn-primary saveButton" storageID="' + profile.id + '" id="searchButton"><span class="glyphicon glyphicon-ok"></span> Save</button>\
     <button class="btn btn-danger deleteButton" storageID="' + profile.id + '" id="searchButton"><span class="glyphicon glyphicon-remove"></span> Delete</button>\
   </div>\
   </div></div>';
+  listItem.querySelector('.panel-heading').innerHTML = profile.name; // profile name  Heading
+  listItem.querySelector('.profileNameInput').value = profile.name; // profile name Input
+  listItem.querySelector('.regex').value = profile.regex; // regex Input
+  listItem.querySelector('.template').value = profile.template; // regex Input
+
   profilesList.appendChild(listItem);
 
   var saveButtons = document.getElementsByClassName("saveButton");
