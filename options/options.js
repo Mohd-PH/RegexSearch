@@ -38,7 +38,7 @@ function displayProfiles() {
 }
 function addProfileToAList(profile) {
   var listItem = document.createElement("div");
-  listItem.setAttribute("class", "col-sm-6");
+  listItem.setAttribute("class", "col-md-6 col-xs-12");
   listItem.innerHTML = '<div class="panel panel-default  ">\
   <div class="panel-heading" storageID="' + profile.id + '"></div>\
   <div class="panel-body">\
