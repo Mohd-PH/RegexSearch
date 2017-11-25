@@ -1,5 +1,6 @@
 // Get what we need from HTML
 var searchButton = document.getElementById("searchButton");
+var highlightButton = document.getElementById("highlightButton");
 var resetButton = document.getElementById("resetButton");
 var copyResultButton = document.getElementById("copyResultButton");
 var saveButton_modal = document.getElementById("saveButton_modal");
@@ -43,7 +44,8 @@ searchButton.addEventListener("click", (e) => {
     browser.tabs.sendMessage(tabs[0].id, {
       regex: regexInput.value,
       flags: getFlags(),
-      template: templateInput.value
+      template: templateInput.value,
+      action: "search"
     }).then(getResponse);
   });
 
@@ -59,6 +61,27 @@ searchButton.addEventListener("click", (e) => {
     // store current values in the storage so user doesn't have to type again when he comes back to popup
     storeCurrent();
   }
+});
+
+highlightButton.addEventListener("click", (e) => {
+  // Add this script to the current tab , first arguments (null) gives the current tab
+  browser.tabs.executeScript(null, {
+    file: "/content_scripts/page_search.js"
+  });
+
+  // Get current tab to connect to the Script we provided on the code above
+  var gettingActiveTab = browser.tabs.query({
+    active: true,
+    currentWindow: true
+  });
+  gettingActiveTab.then((tabs) => {
+    browser.tabs.sendMessage(tabs[0].id, {
+      regex: regexInput.value,
+      flags: getFlags(),
+      action: "highlight"
+    });
+  });
+
 });
 
 

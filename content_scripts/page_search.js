@@ -1,21 +1,33 @@
 function search(request, sender, sendResponse) {
 
-  var regex = new RegExp(request.regex , request.flags);
-  var matches = [];
-  var content = document.body.innerHTML;
-  var match;
 
-  // if its global means we have more than one result, we need to loop
-  if ( regex.flags.includes("g") ){
-    while (match = regex.exec(content)) {
-      matches.push(formatTemplate(match , request.template));
+  if (request.action == "search"){
+    var regex = new RegExp(request.regex , request.flags);
+    var matches = [];
+    var content = document.body.innerHTML;
+    var match;
+  
+    // if its global means we have more than one result, we need to loop
+    if ( regex.flags.includes("g") ){
+      while (match = regex.exec(content)) {
+        matches.push(formatTemplate(match , request.template));
+      }
+    } else {
+      match = regex.exec(content);
+      matches.push( formatTemplate(match ,  request.template) );
     }
-  } else {
-    match = regex.exec(content);
-    matches.push( formatTemplate(match ,  request.template) );
+    // send response to popup script
+    sendResponse({results: matches });
+  } else if (request.action == "highlight"){
+    var regex = new RegExp("(" + request.regex  + ")", request.flags);
+    
+    document.body.innerHTML = document.body.innerHTML.replace(regex,(match) => {
+      console.log(match);
+      return "<span style='background-color:yellow;' >" + match + "</span>";
+    });
+    
   }
-  // send response to popup script
-  sendResponse({results: matches });
+  
   browser.runtime.onMessage.removeListener(search);
 
 }
