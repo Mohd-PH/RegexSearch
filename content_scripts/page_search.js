@@ -19,11 +19,16 @@ function search(request, sender, sendResponse) {
     // send response to popup script
     sendResponse({results: matches });
   } else if (request.action == "highlight"){
+    var previousHighlighters = document.querySelectorAll(".regexSearchHighlighter");
+    
+    previousHighlighters.forEach( (highlight) => {
+      highlight.style.backgroundColor = "transparent";
+    });
+    
     var regex = new RegExp("(" + request.regex  + ")", request.flags);
     
     document.body.innerHTML = document.body.innerHTML.replace(regex,(match) => {
-      console.log(match);
-      return "<span style='background-color:yellow;' >" + match + "</span>";
+      return "<span class='regexSearchHighlighter' style='background-color:yellow;' >" + match + "</span>";
     });
     
   }
