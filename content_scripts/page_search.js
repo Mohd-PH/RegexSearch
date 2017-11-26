@@ -4,7 +4,7 @@ function search(request, sender, sendResponse) {
   if (request.action == "search"){
     var regex = new RegExp(request.regex , request.flags);
     var matches = [];
-    var content = document.body.innerHTML;
+    var content = request.ignoreHTML ? document.body.innerText :document.body.innerHTML;
     var match;
   
     // if its global means we have more than one result, we need to loop

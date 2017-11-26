@@ -12,9 +12,10 @@ function saveButtonClicked(e){
     const Global = document.querySelector('[storageID="'+ id + '"][name="Global"]');
     const CaseInsensitive = document.querySelector('[storageID="'+ id + '"][name="Case-insensitive"]');
     const Multiline = document.querySelector('[storageID="'+ id + '"][name="Multiline"]');
+    const IgnoreHTML = document.querySelector('[storageID="'+ id + '"][name="IgnoreHTML"]');
     const template = document.querySelector('[storageID="'+ id + '"][name="template"]');
 
-    updateProfile(id, profileName.value, regex.value, Global.value, CaseInsensitive.value, Multiline.value, template.value)
+    updateProfile(id, profileName.value, regex.value, Global.value, CaseInsensitive.value, Multiline.value, template.value, IgnoreHTML.value);
 }
 function deleteButtonClicked(e){
   const id = e.target.getAttribute("storageID");
@@ -37,6 +38,10 @@ function displayProfiles() {
   } , console.log);
 }
 function addProfileToAList(profile) {
+  
+  // fix if the profile doesn't have IgnoreHTML
+  profile.IgnoreHTML = profile.IgnoreHTML ? true : false;
+
   var listItem = document.createElement("div");
   listItem.setAttribute("class", "col-md-6 col-xs-12");
   listItem.innerHTML = '<div class="panel panel-default  ">\
@@ -58,6 +63,7 @@ function addProfileToAList(profile) {
     <label><input type="checkbox" storageID="' + profile.id + '" name="Global" id="globalCheckbox" ' + (profile.globalFlag ? "checked" : "") + '> Global </label>\
     <label><input type="checkbox" storageID="' + profile.id + '" name="Case-insensitive" id="caseInsensitiveCheckbox" ' + (profile.caseInsensitiveFlag ? "checked" : "") + '> Case-insensitive </label>\
     <label><input type="checkbox" storageID="' + profile.id + '" name="Multiline" id="multilineCheckbox" ' + (profile.multilineFlag ? "checked" : "") + '> Multiline </label>\
+    <label><input type="checkbox" storageID="' + profile.id + '" name="IgnoreHTML" id="IgnoreHTMLCheckbox" ' + (profile.IgnoreHTML ? "checked" : "") + '> Ignore HTML </label>\
   </div>\
   <div class="form-group">\
     <label for="template">Type a custom template (Optional)</label>\
@@ -101,7 +107,7 @@ function deleteProfile(profileId){
   });
 }
 
-function updateProfile(profileId, newName, newRegex, newGlobal, newCase, newMultiline, newTemplate){
+function updateProfile(profileId, newName, newRegex, newGlobal, newCase, newMultiline, newTemplate, newIgnoreHTML){
   var store = browser.storage.local.get({
     profiles: []
   }).then((results) =>{
@@ -115,6 +121,8 @@ function updateProfile(profileId, newName, newRegex, newGlobal, newCase, newMult
         profiles[i].caseInsensitiveFlag = newCase;
         profiles[i].multilineFlag = newMultiline;
         profiles[i].template = newTemplate;
+        profiles[i].IgnoreHTML = newIgnoreHTML;
+        
 
         updateProfiles(profiles);
         break;

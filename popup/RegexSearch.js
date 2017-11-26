@@ -17,6 +17,8 @@ var caseInsensitiveCheckbox = document.getElementById("caseInsensitiveCheckbox")
 var caseInsensitiveCheckbox_modal = document.getElementById("caseInsensitiveCheckbox_modal");
 var multilineCheckbox = document.getElementById("multilineCheckbox");
 var multilineCheckbox_modal = document.getElementById("multilineCheckbox_modal");
+var IgnoreHTMLCheckbox = document.getElementById("IgnoreHTMLCheckbox");
+var IgnoreHTMLCheckbox_modal = document.getElementById("IgnoreHTMLCheckbox_modal");
 
 //  Get last data from storage so user doesn't have to type it again and update saving model
 getCurrent();
@@ -45,7 +47,8 @@ searchButton.addEventListener("click", (e) => {
       regex: regexInput.value,
       flags: getFlags(),
       template: templateInput.value,
-      action: "search"
+      action: "search",
+      ignoreHTML: IgnoreHTMLCheckbox.checked
     }).then(getResponse);
   });
 
@@ -78,10 +81,11 @@ highlightButton.addEventListener("click", (e) => {
     browser.tabs.sendMessage(tabs[0].id, {
       regex: regexInput.value,
       flags: getFlags(),
-      action: "highlight"
+      action: "highlight",
+      ignoreHTML: IgnoreHTMLCheckbox.checked
     });
   });
-
+  storeCurrent();
 });
 
 
@@ -110,6 +114,7 @@ saveButton_modal.addEventListener("click", (e) => {
   var globalFlag = globalCheckbox_modal.checked;
   var caseInsensitiveFlag = caseInsensitiveCheckbox_modal.checked;
   var multilineFlag = multilineCheckbox_modal.checked;
+  var ignoreHTML = IgnoreHTMLCheckbox_modal.checked;
   var template = templateInput_modal.value;
 
   // Check for the name , we need it to save the profile
@@ -118,7 +123,7 @@ saveButton_modal.addEventListener("click", (e) => {
     return;
   }
   // make new object
-  profile = new profile(id , name, regex, globalFlag, caseInsensitiveFlag, multilineFlag, template);
+  profile = new profile(id , name, regex, globalFlag, caseInsensitiveFlag, multilineFlag, template, ignoreHTML);
   // add the profile to the storage
   addProfile(profile);
 
@@ -163,6 +168,10 @@ multilineCheckbox.addEventListener("change", (e) => {
   updateSaveModal();
   storeCurrent();
 });
+IgnoreHTMLCheckbox.addEventListener("change", (e) => {
+  updateSaveModal();
+  storeCurrent();
+});
 resultTextarea.addEventListener("change", (e) => {
   storeCurrent();
 });
@@ -178,6 +187,7 @@ resetButton.addEventListener("click", (e) => {
   globalCheckbox.checked = false;
   caseInsensitiveCheckbox.checked = false;
   multilineCheckbox.checked = false;
+  IgnoreHTMLCheckbox.checked = false;
   resultTextarea.value = "";
   // to reset the storage also
   storeCurrent();
@@ -190,6 +200,7 @@ function updateSaveModal() {
   globalCheckbox_modal.checked = globalCheckbox.checked;
   caseInsensitiveCheckbox_modal.checked = caseInsensitiveCheckbox.checked;
   multilineCheckbox_modal.checked = multilineCheckbox.checked;
+  IgnoreHTMLCheckbox_modal.checked = IgnoreHTMLCheckbox.checked;
 }
 //  === Storage functions ===
 
@@ -201,6 +212,7 @@ function storeCurrent() {
     globalCheckbox: globalCheckbox.checked,
     caseInsensitiveCheckbox: caseInsensitiveCheckbox.checked,
     multilineCheckbox: multilineCheckbox.checked,
+    IgnoreHTMLCheckbox: IgnoreHTMLCheckbox.checked,
     resultTextarea: resultTextarea.value
   };
   let store = browser.storage.local.set({
@@ -218,6 +230,7 @@ function getCurrent() {
       globalCheckbox: false,
       caseInsensitiveCheckbox: false,
       multilineCheckbox: false,
+      IgnoreHTMLCheckbox: false,
       resultTextarea: ""
     }
   });
@@ -228,6 +241,7 @@ function getCurrent() {
     globalCheckbox.checked = results.currentData.globalCheckbox;
     caseInsensitiveCheckbox.checked = results.currentData.caseInsensitiveCheckbox;
     multilineCheckbox.checked = results.currentData.multilineCheckbox;
+    IgnoreHTMLCheckbox.checked = results.currentData.IgnoreHTMLCheckbox;
     resultTextarea.value = results.currentData.resultTextarea;
     updateSaveModal();
   }, onError);
@@ -287,6 +301,7 @@ function getProfile(profileId) {
         globalCheckbox.checked = profiles[i].globalFlag;
         caseInsensitiveCheckbox.checked = profiles[i].caseInsensitiveFlag;
         multilineCheckbox.checked = profiles[i].multilineFlag;
+        IgnoreHTMLCheckbox.checked = profiles[i].IgnoreHTML ? true : false;
         break;
       }
     }
@@ -301,13 +316,14 @@ function onError(err) {
 
 
 // Profile object constructer
-function profile(id , name, regex, globalFlag, caseInsensitiveFlag, multilineFlag, template) {
+function profile(id , name, regex, globalFlag, caseInsensitiveFlag, multilineFlag, template, IgnoreHTML) {
   this.id = id;
   this.name = name;
   this.regex = regex;
   this.globalFlag = globalFlag;
   this.caseInsensitiveFlag = caseInsensitiveFlag;
   this.multilineFlag = multilineFlag;
+  this.IgnoreHTML = IgnoreHTML;
   this.template = template;
 }
 function getID() {
