@@ -13,8 +13,9 @@ function search(request, sender, sendResponse) {
         matches.push(formatTemplate(match , request.template));
       }
     } else {
-      match = regex.exec(content);
-      matches.push( formatTemplate(match ,  request.template) );
+      if (match = regex.exec(content) ) {
+        matches.push( formatTemplate(match ,  request.template) );
+      }
     }
     // send response to popup script
     sendResponse({results: matches });

@@ -61,6 +61,10 @@ searchButton.addEventListener("click", (e) => {
     for (i = 0; i < matches.length; i++) {
       resultTextarea.value += matches[i];
     }
+    
+    if (matches.length == 0 || matches == undefined){
+      resultTextarea.value = "No Results Found";
+    }
     // store current values in the storage so user doesn't have to type again when he comes back to popup
     storeCurrent();
   }
