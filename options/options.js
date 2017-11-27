@@ -15,7 +15,7 @@ function saveButtonClicked(e){
     const IgnoreHTML = document.querySelector('[storageID="'+ id + '"][name="IgnoreHTML"]');
     const template = document.querySelector('[storageID="'+ id + '"][name="template"]');
 
-    updateProfile(id, profileName.value, regex.value, Global.value, CaseInsensitive.value, Multiline.value, template.value, IgnoreHTML.value);
+    updateProfile(id, profileName.value, regex.value, Global.checked, CaseInsensitive.checked, Multiline.checked, template.value, IgnoreHTML.checked);
 }
 function deleteButtonClicked(e){
   const id = e.target.getAttribute("storageID");
