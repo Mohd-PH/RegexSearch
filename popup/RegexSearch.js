@@ -19,6 +19,7 @@ var multilineCheckbox = document.getElementById("multilineCheckbox");
 var multilineCheckbox_modal = document.getElementById("multilineCheckbox_modal");
 var IgnoreHTMLCheckbox = document.getElementById("IgnoreHTMLCheckbox");
 var IgnoreHTMLCheckbox_modal = document.getElementById("IgnoreHTMLCheckbox_modal");
+var matchesCount = document.getElementById("matchesCount");
 
 //  Get last data from storage so user doesn't have to type it again and update saving model
 getCurrent();
@@ -63,7 +64,9 @@ searchButton.addEventListener("click", (e) => {
     }
     
     if (matches.length == 0 || matches == undefined){
-      resultTextarea.value = "No Results Found";
+      matchesCount.innerText = "No Matches Found";
+    } else {
+      matchesCount.innerText = `${matches.length} match${ matches.length > 1 ? 'es' : '' } found`;
     }
     // store current values in the storage so user doesn't have to type again when he comes back to popup
     storeCurrent();
@@ -193,6 +196,7 @@ resetButton.addEventListener("click", (e) => {
   multilineCheckbox.checked = false;
   IgnoreHTMLCheckbox.checked = false;
   resultTextarea.value = "";
+  matchesCount.innerText = "";
   // to reset the storage also
   storeCurrent();
 });
