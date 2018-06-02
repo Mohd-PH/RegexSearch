@@ -28,6 +28,13 @@ displayProfiles();
 
 
 
+regexInput.addEventListener('keyup', clickSearchButtonOnEnter)
+templateInput.addEventListener('keyup', clickSearchButtonOnEnter)
+function clickSearchButtonOnEnter(event){
+    if (event.keyCode === 13){
+      searchButton.click()
+    }
+}
 
 
 // When search Button clicked
