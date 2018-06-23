@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="RegexSearch.css">
     <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="../js/bootstrap.js"></script>
@@ -14,7 +15,7 @@
         <label for="regexInput">Type Regex here</label>
         <div class="input-group">
           <span class="input-group-addon" id="slash-addon1">/</span>
-          <input type="text" class="form-control" name="regex" id="regexInput" placeholder="Regular Expression" autofocus>
+          <input type="text" class="form-control monospaced" name="regex" id="regexInput" placeholder="Regular Expression" autofocus>
           <span class="input-group-addon" id="slash-addon2">/</span>
         </div>
       </div>
@@ -26,7 +27,7 @@
       </div>
       <div class="form-group">
         <label for="template">Type a custom template (Optional)</label>
-        <input type="text" class="form-control" name="template" id="templateInput" placeholder="template">
+        <input type="text" class="form-control monospaced" name="template" id="templateInput" placeholder="template">
       </div>
       <div class="btn-group" role="group" aria-label="...">
         <button class="btn btn-primary" id="searchButton"><span class="glyphicon glyphicon-search"></span> Search</button>
@@ -50,7 +51,7 @@
       <div class="form-group">
         <label for="resultTextarea">Result</label>
         <p id="matchesCount"></p>
-        <textarea class="form-control" name="result" id="resultTextarea"></textarea>
+        <textarea class="form-control monospaced" name="result" id="resultTextarea"></textarea>
       </div>
       <div class="form-group">
         <button class="btn btn-default btn-block" id="copyResultButton">Copy</button>
@@ -74,13 +75,13 @@
           </div>
           <div class="form-group">
             <label for="profileNameInput_modal">Profile Name</label>
-            <input type="text" class="form-control" name="profileNameInput_modal" id="profileNameInput_modal" placeholder="Name">
+            <input type="text" class="form-control monospaced" name="profileNameInput_modal" id="profileNameInput_modal" placeholder="Name">
           </div>
           <div class="form-group">
             <label for="regexInput_modal">Type Regex here</label>
             <div class="input-group">
               <span class="input-group-addon" id="slash-addon1_modal">/</span>
-              <input type="text" class="form-control" name="regex" id="regexInput_modal" placeholder="Regular Expression">
+              <input type="text" class="form-control monospaced" name="regex" id="regexInput_modal" placeholder="Regular Expression">
               <span class="input-group-addon" id="slash-addon2_modal">/</span>
             </div>
           </div>
@@ -92,7 +93,7 @@
           </div>
           <div class="form-group">
             <label for="templateInput_modal">Type a custom template (Optional)</label>
-            <input type="text" class="form-control" name="template" id="templateInput_modal" placeholder="template">
+            <input type="text" class="form-control monospaced" name="template" id="templateInput_modal" placeholder="template">
           </div>
 
         </div>

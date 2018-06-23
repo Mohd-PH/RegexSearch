@@ -49,13 +49,13 @@ function addProfileToAList(profile) {
   <div class="panel-body">\
   <div class="form-group">\
     <label for="profileNameInput">Profile Name</label>\
-    <input type="text" class="form-control profileNameInput" storageID="' + profile.id + '" name="profileNameInput" placeholder="Name">\
+    <input type="text" class="form-control profileNameInput monospaced" storageID="' + profile.id + '" name="profileNameInput" placeholder="Name">\
   </div>\
   <div class="form-group">\
     <label for="regex">Regex</label>\
     <div class="input-group">\
       <span class="input-group-addon" id="slash-addon1">/</span>\
-      <input type="text" class="form-control regex" storageID="' + profile.id + '" name="regex"  placeholder="Regular Expression">\
+      <input type="text" class="form-control regex monospaced" storageID="' + profile.id + '" name="regex"  placeholder="Regular Expression">\
       <span class="input-group-addon" id="slash-addon2">/</span>\
     </div>\
   </div>\
@@ -67,7 +67,7 @@ function addProfileToAList(profile) {
   </div>\
   <div class="form-group">\
     <label for="template">Type a custom template (Optional)</label>\
-    <input type="text" class="form-control template" storageID="' + profile.id + '" name="template" placeholder="template" >\
+    <input type="text" class="form-control template monospaced" storageID="' + profile.id + '" name="template" placeholder="template" >\
   </div>\
   <div class=""  >\
     <button class="btn btn-primary saveButton" storageID="' + profile.id + '" id="searchButton"><span class="glyphicon glyphicon-ok"></span> Save</button>\
