@@ -20,7 +20,7 @@ var multilineCheckbox_modal = document.getElementById("multilineCheckbox_modal")
 var IgnoreHTMLCheckbox = document.getElementById("IgnoreHTMLCheckbox");
 var IgnoreHTMLCheckbox_modal = document.getElementById("IgnoreHTMLCheckbox_modal");
 var matchesCount = document.getElementById("matchesCount");
-
+var shiftHeld = false;
 //  Get last data from storage so user doesn't have to type it again and update saving model
 getCurrent();
 // Get profiles from storage
@@ -31,11 +31,23 @@ displayProfiles();
 regexInput.addEventListener('keyup', clickSearchButtonOnEnter)
 templateInput.addEventListener('keyup', clickSearchButtonOnEnter)
 function clickSearchButtonOnEnter(event){
-    if (event.keyCode === 13){
-      searchButton.click()
+  if (event.keyCode === 16) { // Shift key
+    shiftHeld = false;
+  }
+  if (event.keyCode === 13){ // Enter key
+    if(this.id === regexInput.id && shiftHeld){
+      highlightButton.click();
+      return;
     }
+    searchButton.click()
+  }
 }
 
+regexInput.addEventListener('keydown', event => {
+  if (event.keyCode === 16) { // Shift key
+    shiftHeld = true;
+  }
+});
 
 // When search Button clicked
 searchButton.addEventListener("click", (e) => {
