@@ -45,7 +45,7 @@
             <li role="separator" class="divider"></li>
           </ul>
         </div>
-      <button class="btn btn-danger" id="resetButton"><span class="glyphicon glyphicon-remove"></span> Reset</button>
+        <button class="btn btn-danger" id="resetButton"><span class="glyphicon glyphicon-remove"></span> Reset</button>
       </div>
       <hr>
       <div class="form-group">
@@ -58,52 +58,52 @@
       </div>
     </div>
 
-  <!-- MODAL -->
-  <div class="modal fade" id="saveModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Save Profile</h4>
-        </div>
-        <div class="modal-body">
-          <div class="alert alert-danger alert-dismissible fade in" style="display:none;" role="alert" id="name_alert_modal">
-            Type A name
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+    <!-- MODAL -->
+    <div class="modal fade" id="saveModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Save Profile</h4>
           </div>
-          <div class="form-group">
-            <label for="profileNameInput_modal">Profile Name</label>
-            <input type="text" class="form-control monospaced" name="profileNameInput_modal" id="profileNameInput_modal" placeholder="Name">
-          </div>
-          <div class="form-group">
-            <label for="regexInput_modal">Type Regex here</label>
-            <div class="input-group">
-              <span class="input-group-addon" id="slash-addon1_modal">/</span>
-              <input type="text" class="form-control monospaced" name="regex" id="regexInput_modal" placeholder="Regular Expression">
-              <span class="input-group-addon" id="slash-addon2_modal">/</span>
+          <div class="modal-body">
+            <div class="alert alert-danger alert-dismissible fade in" style="display:none;" role="alert" id="name_alert_modal">
+              Type A name
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-          </div>
-          <div class="checkbox">
-            <label><input type="checkbox" name="Global_modal" id="globalCheckbox_modal"> Global </label>
-            <label><input type="checkbox" name="Case-insensitive_modal" id="caseInsensitiveCheckbox_modal"> Case-insensitive </label>
-            <label><input type="checkbox" name="Multiline_modal" id="multilineCheckbox_modal"> Multiline </label>
-            <label><input type="checkbox" name="IgnoreHTML_modal" id="IgnoreHTMLCheckbox_modal"> Ignore HTML </label>
-          </div>
-          <div class="form-group">
-            <label for="templateInput_modal">Type a custom template (Optional)</label>
-            <input type="text" class="form-control monospaced" name="template" id="templateInput_modal" placeholder="template">
-          </div>
+            <div class="form-group">
+              <label for="profileNameInput_modal">Profile Name</label>
+              <input type="text" class="form-control monospaced" name="profileNameInput_modal" id="profileNameInput_modal" placeholder="Name">
+            </div>
+            <div class="form-group">
+              <label for="regexInput_modal">Type Regex here</label>
+              <div class="input-group">
+                <span class="input-group-addon" id="slash-addon1_modal">/</span>
+                <input type="text" class="form-control monospaced" name="regex" id="regexInput_modal" placeholder="Regular Expression">
+                <span class="input-group-addon" id="slash-addon2_modal">/</span>
+              </div>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" name="Global_modal" id="globalCheckbox_modal"> Global </label>
+              <label><input type="checkbox" name="Case-insensitive_modal" id="caseInsensitiveCheckbox_modal"> Case-insensitive </label>
+              <label><input type="checkbox" name="Multiline_modal" id="multilineCheckbox_modal"> Multiline </label>
+              <label><input type="checkbox" name="IgnoreHTML_modal" id="IgnoreHTMLCheckbox_modal"> Ignore HTML </label>
+            </div>
+            <div class="form-group">
+              <label for="templateInput_modal">Type a custom template (Optional)</label>
+              <input type="text" class="form-control monospaced" name="template" id="templateInput_modal" placeholder="template">
+            </div>
 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveButton_modal">Save changes</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveButton_modal">Save changes</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <script type="text/javascript" src="RegexSearch.js"></script>
   </body>
 </html>
