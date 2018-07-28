@@ -56,6 +56,7 @@
       <div class="form-group">
         <button class="btn btn-default btn-block" id="copyResultButton">Copy</button>
       </div>
+      <button class="btn btn-default" id="helpButton" data-toggle="modal" data-target="#helpModal">Help</button>
     </div>
 
     <!-- SAVE MODAL -->
@@ -106,17 +107,82 @@
     </div><!-- /.modal -->
     
     <!-- HELP MODAL -->
-    <div class="modal fade" id="saveModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="helpModal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Help</h4>
           </div>
-          <div class="modal-body">
-            
+          <div class="modal-body"> <!--  Converted from help.md -->
+            <h5 id="special-regex-characters">Special Regex Characters</h5>
+            <ul>
+              <li><code>.</code> - matches any character</li>
+              <li><code>\d</code> - matches digits 0-9</li>
+              <li><code>\D</code> - matches any character but 0-9</li>
+              <li><code>\s</code> - matches whitespace characters</li>
+              <li><code>\S</code> - matches any character but whitespace</li>
+              <li><code>\w</code> - matches A-Z, a-z, 0-9, and _</li>
+              <li><code>\W</code> - matches any character but A-Z, a-z, 0-9, and _</li>
+              <li><code>\t</code> - matches a tab character</li>
+              <li><code>\n</code> - matches a newline character
+                <ul>
+                  <li>This can be used in the template to print a newline</li>
+                </ul>
+              </li>
+            </ul>
+            <h5 id="character-sets">Character Sets</h5>
+            <ul>
+              <li><code>[ab]</code> - matches any one character within the brackets</li>
+              <li><code>[^ab]</code> - matches any character except those in the brackets</li>
+            </ul>
+            <h5 id="alternation">Alternation</h5>
+            <ul>
+              <li><code>a|b</code> - matches the expression on the right or the expression on the left</li>
+            </ul>
+            <h5 id="boundaries">Boundaries</h5>
+            <ul>
+              <li><code>^</code> - matches the beginning of input
+                <ul>
+                  <li>Also matches the beginning of the line when &#39;Multiline&#39; is checked</li>
+                </ul>
+              </li>
+              <li><code>$</code> - matches the end of input
+                <ul>
+                  <li>Also matches the end of the line before the line break character when &#39;Multiline&#39; is checked</li>
+                </ul>
+              </li>
+              <li><code>\b</code> - matches word boundaries</li>
+              <li><code>\B</code> - matches non-word boundaries</li>
+            </ul>
+            <h5 id="grouping-and-back-references">Grouping and Back References</h5>
+            <ul>
+              <li><code>(a)</code> - matches the expression within and remembers the match</li>
+              <li><code>\n</code> - matches the <em>n</em>th parenthesized expression, where <em>n</em> is a positive integer
+                <ul>
+                  <li>This can be used in the template to print the <em>n</em>th parenthesized expression</li>
+                </ul>
+              																						</li>
+              <li><code>(?:a)</code> - matches the expression within and doesn&#39;t remember the match</li>
+            </ul>
+            <h5 id="quantifiers">Quantifiers</h5>
+            <ul>
+              <li><code>a*</code> - matches the expression 0 or more times</li>
+              <li><code>a+</code> - matches the expression 1 or more times</li>
+              <li><code>a?</code> - matches the expression 0 or 1 times</li>
+              <li><code>a{n}</code> - matches the expression <em>n</em> times</li>
+              <li><code>a{n,}</code> - matches the expression <em>n</em> or more times</li>
+              <li><code>a{n,m}</code> - matches the expression <em>n</em> to <em>m</em> times</li>
+            </ul>
+            <p>
+              For details, examples, and advanced concepts, visit <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp#Special_characters_meaning_in_regular_expressions">this documentation.</a>
+            </p>
+            <p class="small">
+              Note: <em>a</em> and <em>b</em> in the examples represent any expression (except in the case of <code>\b</code>)
+            </p>
           </div>
           <div class="modal-footer">
-            
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
