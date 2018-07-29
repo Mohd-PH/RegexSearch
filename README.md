@@ -6,3 +6,7 @@ Firefox Extension (WebExtension) to Search in HTML using Regular Expression (REG
 ![Highlighting example](https://raw.githubusercontent.com/Mohd-PH/RegexSearch/master/images/Highlighting%20example.png) Highlighting example|
 ![Searching example](https://raw.githubusercontent.com/Mohd-PH/RegexSearch/master/images/Searching%20example.png) Searching example
 --------|-------|-------
+
+
+# How to use
+[Here is help file written](help.md) by [@theDragonFire](https://github.com/theDragonFire)
