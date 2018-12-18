@@ -61,7 +61,7 @@ function formatTemplate(match , template){
     if (x[1] == 'n'){
       return "\n";
     }else {
-      return match[ x[1] ];
+      return match[ x[1] ] || "";
     }
   }
 }
