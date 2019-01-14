@@ -54,18 +54,31 @@ function formatTemplate(match , template){
   if (template == ""){
     return match[0];
   }
-  // replace every \d or $d with match[d] , its index in the match groups , \n or $n adds a new line :D
-  return template.replace(/(\$|\\)(\d+|n)/gi , replacer );
-
-  function replacer(x){
-    if (x[1] == 'n'){
-      return "\n";
-    }else {
-      return match[ x[1] ] || "";
+  template = template.replace(/\$(\d+|&|`|')|\\(n|r)/g, function($0, tkn, newLine) {
+    var token;
+    switch(tkn) {
+      case '&':
+        token = match[0];
+        break;
+      case '$':
+        token = '$';
+        break;
+      case '`':
+        token = match.input.substring(0, match.index);
+        break;
+      case '\'':
+        token = match.input.substring(match.index);
+        break;
+      default:
+        token = match[+tkn] || '';
     }
-  }
+    if (newLine == 'n' || newLine == 'r') {
+      return "\n";
+    }
+    return token;
+  });
+  return template
 }
-
 
 
 
