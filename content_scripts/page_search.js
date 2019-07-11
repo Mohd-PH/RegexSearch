@@ -38,7 +38,7 @@ function search(request, sender, sendResponse) {
     var newHighlighters = document.querySelectorAll(".regexSearchHighlighter");
     
     newHighlighters.forEach( (highlight) => {
-      highlight.style.backgroundColor = "yellow";
+      highlight.style.backgroundColor = request.highlightColor;
     });
     
   }
