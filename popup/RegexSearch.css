@@ -5,3 +5,33 @@ html , body  {
 .content {
   padding: 20px;
 }
+
+#standardColors {
+  margin: 0 13px 5px;
+}
+
+.label {
+  padding: 3px;
+  border-radius: 5px;
+  color: black;
+}
+
+#yellowLabel {
+  background-color: yellow;
+}
+
+#blueLabel {
+  background-color: cyan;
+}
+
+#greenLabel {
+  background-color: lawngreen;
+}
+
+#pinkLabel {
+  background-color: hotpink;
+}
+
+#purpleLabel {
+  background-color: magenta;
+}
