@@ -216,6 +216,24 @@ resetButton.addEventListener("click", (e) => {
   IgnoreHTMLCheckbox.checked = false;
   resultTextarea.value = "";
   matchesCount.innerText = "";
+  
+  // Remove the highlights on the page
+  
+  // Add this script to the current tab , first arguments (null) gives the current tab
+  browser.tabs.executeScript(null, {
+    file: "/content_scripts/remove_highlights.js"
+  });
+
+  // Get current tab to connect to the Script we provided on the code above
+  browser.tabs.query({
+    active: true,
+    currentWindow: true
+  }).then((tabs) => { // Send the message to remove the highlights
+    browser.tabs.sendMessage(tabs[0].id, {
+      action: "remove-highlights"
+    });
+  });
+  
   // to reset the storage also
   storeCurrent();
 });
