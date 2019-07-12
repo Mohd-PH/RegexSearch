@@ -20,7 +20,10 @@ var multilineCheckbox_modal = document.getElementById("multilineCheckbox_modal")
 var IgnoreHTMLCheckbox = document.getElementById("IgnoreHTMLCheckbox");
 var IgnoreHTMLCheckbox_modal = document.getElementById("IgnoreHTMLCheckbox_modal");
 var matchesCount = document.getElementById("matchesCount");
+var customColorInput_modal = document.getElementById("customColorInput");
+var updateColorButton_modal = document.getElementById("updateColor");
 var shiftHeld = false;
+var highlightColor = "yellow";
 //  Get last data from storage so user doesn't have to type it again and update saving model
 getCurrent();
 // Get profiles from storage
@@ -108,7 +111,8 @@ highlightButton.addEventListener("click", (e) => {
       regex: regexInput.value,
       flags: getFlags(),
       action: "highlight",
-      ignoreHTML: IgnoreHTMLCheckbox.checked
+      ignoreHTML: IgnoreHTMLCheckbox.checked,
+      highlightColor: highlightColor
     });
   });
   storeCurrent();
@@ -238,6 +242,14 @@ resetButton.addEventListener("click", (e) => {
   storeCurrent();
 });
 
+// Update Color Button Event
+updateColorButton_modal.addEventListener("click", (e) => {
+  highlightColor = document.querySelector("input[name='color']:checked").value;
+  if(highlightColor === "custom")
+    highlightColor = "#" + customColorInput_modal.value;
+  storeHighlightColor();
+});
+
 // Update save model inputs
 function updateSaveModal() {
   regexInput_modal.value = regexInput.value;
@@ -277,7 +289,9 @@ function getCurrent() {
       multilineCheckbox: false,
       IgnoreHTMLCheckbox: false,
       resultTextarea: ""
-    }
+    },
+
+    highlightColor: "yellow"
   });
 
   store.then(function(results) {
@@ -288,6 +302,7 @@ function getCurrent() {
     multilineCheckbox.checked = results.currentData.multilineCheckbox;
     IgnoreHTMLCheckbox.checked = results.currentData.IgnoreHTMLCheckbox;
     resultTextarea.value = results.currentData.resultTextarea;
+    highlightColor = results.highlightColor;
     updateSaveModal();
   }, onError);
 }
@@ -351,6 +366,12 @@ function getProfile(profileId) {
       }
     }
   }, onError);
+}
+
+
+function storeHighlightColor() {
+  browser.storage.local.set({ highlightColor })
+    .catch(onError);
 }
 
 
