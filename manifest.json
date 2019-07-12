@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Regex Search",
-  "version": "1.0.15",
+  "version": "1.0.16",
 
   "description": "Search in HTML using Regular Expression (REGEX) and output the results using template, with saving profiles functionality, you need to know 'basic' Regular expression to benefit from this plugin",
   "homepage_url": "https://github.com/Mohd-PH/RegexSearch/",
