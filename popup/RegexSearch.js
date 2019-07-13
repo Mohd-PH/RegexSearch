@@ -20,8 +20,10 @@ var multilineCheckbox_modal = document.getElementById("multilineCheckbox_modal")
 var IgnoreHTMLCheckbox = document.getElementById("IgnoreHTMLCheckbox");
 var IgnoreHTMLCheckbox_modal = document.getElementById("IgnoreHTMLCheckbox_modal");
 var matchesCount = document.getElementById("matchesCount");
-var customColorInput_modal = document.getElementById("customColorInput");
-var updateColorButton_modal = document.getElementById("updateColor");
+var colorButton = document.getElementById("colorButton");
+var customColorRadio = document.getElementById("customColor");
+var customColorInput = document.getElementById("customColorInput");
+var updateColorButton = document.getElementById("updateColor");
 var shiftHeld = false;
 var highlightColor = "yellow";
 //  Get last data from storage so user doesn't have to type it again and update saving model
@@ -242,11 +244,21 @@ resetButton.addEventListener("click", (e) => {
   storeCurrent();
 });
 
+// Open Color Highlight Modal
+colorButton.addEventListener("click", (e) => {
+  if (highlightColor && highlightColor[0] == "#") {
+    customColorRadio.checked = true;
+    customColorInput.value = highlightColor.substring(1);
+  } else {
+    document.querySelector("input[value='" + highlightColor + "']").checked = true;
+  }
+});
+
 // Update Color Button Event
-updateColorButton_modal.addEventListener("click", (e) => {
+updateColorButton.addEventListener("click", (e) => {
   highlightColor = document.querySelector("input[name='color']:checked").value;
   if(highlightColor === "custom")
-    highlightColor = "#" + customColorInput_modal.value;
+    highlightColor = "#" + customColorInput.value;
   storeHighlightColor();
 });
 
