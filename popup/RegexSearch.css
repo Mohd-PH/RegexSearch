@@ -16,6 +16,10 @@ html , body  {
   color: black;
 }
 
+#profilesList{
+  left: -55px;
+}
+
 #yellowLabel {
   background-color: yellow;
 }
@@ -34,4 +38,12 @@ html , body  {
 
 #purpleLabel {
   background-color: magenta;
+}
+
+.small-form{
+  display:none;
+}
+
+#small-form{
+  padding: 3px 20px;
 }

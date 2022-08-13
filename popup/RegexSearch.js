@@ -28,6 +28,8 @@ var customColorInput = document.getElementById("customColorInput");
 var customBorderColorRadio = document.getElementById("customBorderColor");
 var customBorderColorInput = document.getElementById("customBorderColorInput");
 var updateColorButton = document.getElementById("updateColor");
+var smallFormCheckbox = document.getElementById("smallFormCheckbox");
+var fullFormCheckbox = document.getElementById("fullFormCheckbox");
 var shiftHeld = false;
 var highlightColor = "yellow";
 var highlightBorderColor = "magenta";
@@ -336,8 +338,44 @@ resultTextarea.addEventListener("change", (e) => {
   selectedItemIndex = -1
 });
 
+smallFormCheckbox.addEventListener("change", (e) => {
+  smallFormCheckboxChange(e);
+});
 
+function smallFormCheckboxChange(e){
+  if (smallFormCheckbox.checked) {
+    document.querySelectorAll(".small-form").forEach((el) => {
+      el.classList.remove("small-form")
+      el.classList.add("big-form")
+    })
+    document.querySelectorAll(".full-form").forEach((el) => {
+      el.classList.remove("full-form")
+      el.classList.add("small-form")
+    })
+    fullFormCheckbox.checked=true;
+  }
+  storeCurrent();
+}
 
+fullFormCheckbox.addEventListener("change", (e) => {
+  fullFormCheckboxChange(e);
+});
+
+function fullFormCheckboxChange(e){
+  if (!fullFormCheckbox.checked) {
+    document.querySelectorAll(".small-form").forEach((el) => {
+      el.classList.remove("small-form")
+      el.classList.add("full-form")
+    })
+    document.querySelectorAll(".big-form").forEach((el) => {
+      el.classList.remove("big-form")
+      el.classList.add("small-form")
+      console.log(el)
+    })
+  }
+  smallFormCheckbox.checked =false;
+  storeCurrent();
+}
 
 // Reset Button Event
 resetButton.addEventListener("click", (e) => {
@@ -350,6 +388,7 @@ resetButton.addEventListener("click", (e) => {
   resultTextarea.value = "";
   matchesCount.innerText = "";
   selectedItemIndex = -1;
+  smallFormCheckbox.checked = false;
   // Remove the highlights on the page
   
   // Add this script to the current tab , first arguments (null) gives the current tab
@@ -420,7 +459,8 @@ function storeCurrent() {
     multilineCheckbox: multilineCheckbox.checked,
     IgnoreHTMLCheckbox: IgnoreHTMLCheckbox.checked,
     resultTextarea: resultTextarea.value,
-    selectedItemIndex:selectedItemIndex
+    selectedItemIndex:selectedItemIndex,
+    smallForm: smallFormCheckbox.checked
   };
   let store = browser.storage.local.set({
     currentData
@@ -438,7 +478,9 @@ function getCurrent() {
       caseInsensitiveCheckbox: false,
       multilineCheckbox: false,
       IgnoreHTMLCheckbox: false,
-      resultTextarea: ""
+      resultTextarea: "",
+      selectedItemIndex:-1,
+      smallForm: false,
     },
 
     highlightColor: "yellow",
@@ -453,9 +495,11 @@ function getCurrent() {
     multilineCheckbox.checked = results.currentData.multilineCheckbox;
     IgnoreHTMLCheckbox.checked = results.currentData.IgnoreHTMLCheckbox;
     resultTextarea.value = results.currentData.resultTextarea;
+    selectedItemIndex = results.currentData.selectedItemIndex;
     highlightColor = results.highlightColor;
     highlightBorderColor= results.highlightBorderColor,
-    selectedItemIndex = results.selectedItemIndex
+    smallFormCheckbox.checked = results.currentData.smallForm;
+    smallFormCheckboxChange("")
     updateSaveModal();
   }, onError);
 }

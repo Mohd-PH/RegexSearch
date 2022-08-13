@@ -11,7 +11,7 @@
   </head>
   <body onpagehide="alert('unloaded');">
     <div class="content">
-      <div class="form-group">
+      <div class="form-group full-form">
         <label for="regexInput">Type Regex here</label>
         <div class="input-group">
           <span class="input-group-addon" id="slash-addon1">/</span>
@@ -19,13 +19,13 @@
           <span class="input-group-addon" id="slash-addon2">/</span>
         </div>
       </div>
-      <div class="checkbox">
+      <div class="checkbox full-form">
         <label><input type="checkbox" name="Global" id="globalCheckbox"> Global </label>
         <label><input type="checkbox" name="Case-insensitive" id="caseInsensitiveCheckbox"> Case-insensitive </label>
         <label><input type="checkbox" name="Multiline" id="multilineCheckbox"> Multiline </label>
         <label><input type="checkbox" name="IgnoreHTML" id="IgnoreHTMLCheckbox"> Ignore HTML </label>
       </div>
-      <div class="form-group">
+      <div class="form-group full-form">
         <label for="template">Type a custom template (Optional)</label>
         <input type="text" class="form-control monospaced" name="template" id="templateInput" placeholder="template">
       </div>
@@ -36,30 +36,32 @@
         <button class="btn btn-success" id="previousButton"><span class="glyphicon glyphicon-collapse-up"></span> Previous</button>
       
         <button class="btn btn-default" id="saveButton" data-toggle="modal" data-target="#saveModal"><span class="glyphicon glyphicon-floppy-save"></span> Save Profile</button>
+        <button class="btn btn-default small-form" id="saveButton" data-toggle="modal" id="fullFormButton"><input type="checkbox" name="fullForm" id="fullFormCheckbox"> Small Form</button>
         <!-- DropDown -->
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="glyphicon glyphicon-floppy-open"></span> Saved Profiles
+        <div class="btn-group full-form" role="group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span class="glyphicon glyphicon-cog"></span> Options
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" id="profilesList">
+            <li ><label id="small-form"><input type="checkbox" name="SmallForm" id="smallFormCheckbox"> Small Form</label></li>
             <li ><a href="#" storageID="manage"><span class="glyphicon glyphicon-cog"></span> Manage Profiles</a></li>
             <li role="separator" class="divider"></li>
           </ul>
         </div>
         <button class="btn btn-danger" id="resetButton"><span class="glyphicon glyphicon-remove"></span> Reset</button>
       </div>
-      <hr>
-      <div class="form-group">
+      <hr class="full-form">
+      <div class="form-group full-form">
         <label for="resultTextarea">Result</label>
         <p id="matchesCount"></p>
         <textarea class="form-control monospaced" name="result" id="resultTextarea" readonly="readonly"></textarea>
       </div>
-      <div class="form-group">
+      <div class="form-group full-form">
         <button class="btn btn-default btn-block" id="copyResultButton">Copy</button>
       </div>
-      <button class="btn btn-default" id="helpButton" data-toggle="modal" data-target="#helpModal">Help</button>
-      <button class="btn btn-default pull-right" id="colorButton" data-toggle="modal" data-target="#colorModal">Change Highlight Color</button>
+      <button class="btn btn-default full-form" id="helpButton" data-toggle="modal" data-target="#helpModal">Help</button>
+      <button class="btn btn-default pull-right full-form" id="colorButton" data-toggle="modal" data-target="#colorModal">Change Highlight Color</button>
     </div>
 
     <!-- SAVE MODAL -->
