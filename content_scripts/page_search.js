@@ -1,51 +1,122 @@
 function search(request, sender, sendResponse) {
+  try {
+    if (request.action == "search") {
+      var regex = new RegExp(request.regex, request.flags);
+      var matches = [];
+      var content = request.ignoreHTML ? document.body.innerText : document.body.innerHTML;
+      var match;
 
+      // if its global means we have more than one result, we need to loop
+      if (regex.flags.includes("g")) {
+        while (match = regex.exec(content)) {
+          matches.push(formatTemplate(match, request.template));
+        }
+      } else {
+        if (match = regex.exec(content)) {
+          matches.push(formatTemplate(match, request.template));
+        }
+      }
+      // send response to popup script
+      sendResponse({ results: matches });
+    } else if (request.action == "highlight") {
+      var previousHighlighters = document.querySelectorAll(".regexSearchHighlighter");
 
-  if (request.action == "search"){
-    var regex = new RegExp(request.regex , request.flags);
-    var matches = [];
-    var content = request.ignoreHTML ? document.body.innerText :document.body.innerHTML;
-    var match;
-  
-    // if its global means we have more than one result, we need to loop
-    if ( regex.flags.includes("g") ){
-      while (match = regex.exec(content)) {
-        matches.push(formatTemplate(match , request.template));
+      previousHighlighters.forEach((highlight) => {
+        highlight.style.backgroundColor = "transparent";
+        highlight.classList.remove("regexSearchHighlighter");
+      });
+
+      var regex = new RegExp("(" + request.regex + ")", request.flags);
+
+      findAndReplaceDOMText(document.body, {
+        find: regex,
+        wrap: 'span',
+        wrapClass: "regexSearchHighlighter"
+      });
+
+      var newHighlighters = document.querySelectorAll(".regexSearchHighlighter");
+      newHighlighters.forEach((highlight) => {
+        highlight.style.backgroundColor = request.highlightColor;
+      });
+    } else if (request.action == "next") {
+
+      var regex = new RegExp(request.regex, request.flags);
+      var matches = [];
+      var selectedItemIndex = request.selectedItemIndex;
+      if (selectedItemIndex == -1) {
+        findAndReplaceDOMText(document.body, {
+          find: regex,
+          wrap: 'span',
+          wrapClass: "regexSearchMatch"
+        });
       }
-    } else {
-      if (match = regex.exec(content) ) {
-        matches.push( formatTemplate(match ,  request.template) );
+      var elementMatches = document.querySelectorAll(".regexSearchMatch");
+      if (selectedItemIndex == -1) {
+        for (let index = 0; index < elementMatches.length; index++) {
+          matches.push(elementMatches[index].innerText)
+        }
       }
+      //remove previous highlight if exist
+      if (selectedItemIndex>=0 && elementMatches.length > selectedItemIndex+1){
+        elementMatches[selectedItemIndex].style.backgroundColor = "transparent";
+		    elementMatches[selectedItemIndex].classList.remove("regexSearchHighlighter");
+        el.style.border=""
+      }
+      //highlight and scroll down to the item
+      if (elementMatches.length > selectedItemIndex+1){
+        selectedItemIndex = selectedItemIndex + 1;
+        el = elementMatches[selectedItemIndex];
+        el.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+        el.style.backgroundColor = request.highlightColor;
+        el.style.border=`2px solid ${request.highlightBorderColor}`
+
+      }
+      sendResponse({ results: matches, selectedItemIndex:selectedItemIndex });
     }
-    // send response to popup script
-    sendResponse({results: matches });
-  } else if (request.action == "highlight"){
-    var previousHighlighters = document.querySelectorAll(".regexSearchHighlighter");
-    
-    previousHighlighters.forEach( (highlight) => {
-      highlight.style.backgroundColor = "transparent";
-      highlight.classList.remove("regexSearchHighlighter");
-    });
-    
-    var regex = new RegExp("(" + request.regex  + ")", request.flags);
-    
-    findAndReplaceDOMText(document.body, {
-      find: regex,
-      wrap: 'span',
-      wrapClass:"regexSearchHighlighter"
-    });
+    else if (request.action == "previous") {
+      var regex = new RegExp(request.regex, request.flags);
+      var matches = [];
+      var selectedItemIndex = request.selectedItemIndex;
+      if (selectedItemIndex == -1) {
+        findAndReplaceDOMText(document.body, {
+          find: regex,
+          wrap: 'span',
+          wrapClass: "regexSearchMatch"
+        });
+      }
+      var elementMatches = document.querySelectorAll(".regexSearchMatch");
+      if (selectedItemIndex == -1) {
+        for (let index = 0; index < elementMatches.length; index++) {
+          matches.push(elementMatches[index].innerText)
+        }
+        selectedItemIndex=elementMatches.length
+      }
+      //remove previous highlight if exist
+      if (selectedItemIndex<elementMatches.length&& selectedItemIndex-1>=0){
+        elementMatches[selectedItemIndex].style.backgroundColor = "transparent";
+		    elementMatches[selectedItemIndex].classList.remove("regexSearchHighlighter");
+        el.style.border=""
+      }
+      //highlight and scroll down to the item
+      if (selectedItemIndex-1>=0){
+        selectedItemIndex = selectedItemIndex - 1;
+        el = elementMatches[selectedItemIndex];
+        el.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+        el.style.backgroundColor = request.highlightColor;
+        el.style.border=`2px solid ${request.highlightBorderColor}`
 
-    var newHighlighters = document.querySelectorAll(".regexSearchHighlighter");
-    
-    newHighlighters.forEach( (highlight) => {
-      highlight.style.backgroundColor = request.highlightColor;
-    });
-    
+      }
+      sendResponse({ results: matches, selectedItemIndex:selectedItemIndex });
+    }
   }
-  
-  browser.runtime.onMessage.removeListener(search);
-
+  catch (ex) {
+    console.error(ex);
+  }
+  finally {
+    browser.runtime.onMessage.removeListener(search);
+  }
 }
+
 browser.runtime.onMessage.addListener(search);
 
 

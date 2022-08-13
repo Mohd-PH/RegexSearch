@@ -32,6 +32,8 @@
       <div class="btn-group" role="group" aria-label="...">
         <button class="btn btn-primary" id="searchButton"><span class="glyphicon glyphicon-search"></span> Search</button>
         <button class="btn btn-warning" id="highlightButton"><span class="glyphicon glyphicon-tint"></span> Highlight</button>
+        <button class="btn btn-success" id="nextButton"><span class="glyphicon glyphicon-collapse-down"></span> Next</button>
+        <button class="btn btn-success" id="previousButton"><span class="glyphicon glyphicon-collapse-up"></span> Previous</button>
       
         <button class="btn btn-default" id="saveButton" data-toggle="modal" data-target="#saveModal"><span class="glyphicon glyphicon-floppy-save"></span> Save Profile</button>
         <!-- DropDown -->
@@ -199,38 +201,82 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <div id="standardColors">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="color" id="yellowColor" value="yellow" checked>
-                  <label class="form-check-label label" id="yellowLabel" for="yellowColor">Yellow</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="color" id="blueColor" value="cyan">
-                  <label class="form-check-label label" id="blueLabel" for="blueColor">Blue</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="color" id="greenColor" value="lawngreen">
-                  <label class="form-check-label label" id="greenLabel" for="greenColor">Green</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="color" id="pinkColor" value="hotpink">
-                  <label class="form-check-label label" id="pinkLabel" for="pinkColor">Pink</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="color" id="purpleColor" value="magenta">
-                  <label class="form-check-label label" id="purpleLabel" for="purpleColor">Purple</label>
-                </div>
-              </div>
-              <div class="form-check">
-                <div class="input-group">
-                  <div class="input-group-addon input-group-text">
-                    <input type="radio" name="color" id="customColor" value="custom">
-                    <label id="customLabel" for="customColor">Custom: </label>
-                  </div>
-                  <span class="input-group-addon" id="hash-addon">#</span>
-                  <input type="text" class="form-control monospaced" name="color" id="customColorInput" placeholder="ffffff" pattern="[\da-fA-F]{6}">
-                </div>
-              </div>
+              <table>
+                <tr>
+                  <th>Highlight Color</th>
+                  <th>Highlight Border Color</th>
+                </tr>
+                <tr>
+                  <td>
+                    <div id="standardColors">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="color" id="yellowColor" value="yellow" checked>
+                        <label class="form-check-label label" id="yellowLabel" for="yellowColor">Yellow</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="color" id="greenColor" value="lawngreen">
+                        <label class="form-check-label label" id="greenLabel" for="greenColor">Green</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="color" id="blueColor" value="cyan">
+                        <label class="form-check-label label" id="blueLabel" for="blueColor">Blue</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="color" id="pinkColor" value="hotpink">
+                        <label class="form-check-label label" id="pinkLabel" for="pinkColor">Pink</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="color" id="purpleColor" value="magenta">
+                        <label class="form-check-label label" id="purpleLabel" for="purpleColor">Purple</label>
+                      </div>
+                    </div>
+                    <div class="form-check">
+                      <div class="input-group">
+                        <div class="input-group-addon input-group-text">
+                          <input type="radio" name="color" id="customColor" value="custom">
+                          <label id="customLabel" for="customColor">Custom: </label>
+                        </div>
+                        <span class="input-group-addon" id="hash-addon">#</span>
+                        <input type="text" class="form-control monospaced" name="color" id="customColorInput" placeholder="ffffff" pattern="[\da-fA-F]{6}">
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div id="standardColors">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="borderColor" id="yellowColor" value="yellow" checked>
+                        <label class="form-check-label label" id="yellowLabel" for="yellowColor">Yellow</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="borderColor" id="greenColor" value="lawngreen">
+                        <label class="form-check-label label" id="greenLabel" for="greenColor">Green</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="borderColor" id="blueColor" value="cyan">
+                        <label class="form-check-label label" id="blueLabel" for="blueColor">Blue</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="borderColor" id="pinkColor" value="hotpink">
+                        <label class="form-check-label label" id="pinkLabel" for="pinkColor">Pink</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="borderColor" id="purpleColor" value="magenta">
+                        <label class="form-check-label label" id="purpleLabel" for="purpleColor">Purple</label>
+                      </div>
+                    </div>
+                    <div class="form-check">
+                      <div class="input-group">
+                        <div class="input-group-addon input-group-text">
+                          <input type="radio" name="borderColor" id="customBorderColor" value="custom">
+                          <label id="customLabel" for="customBorderColor">Custom: </label>
+                        </div>
+                        <span class="input-group-addon" id="hash-addon">#</span>
+                        <input type="text" class="form-control monospaced" name="color" id="customBorderColorInput" placeholder="ffffff" pattern="[\da-fA-F]{6}">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
             </div>
           </div>
           <div class="modal-footer">
