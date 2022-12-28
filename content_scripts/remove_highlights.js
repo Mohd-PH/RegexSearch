@@ -4,7 +4,14 @@ function remove_highlighting(request) {
 		
 		previousHighlighters.forEach( (highlight) => {
 		  highlight.style.backgroundColor = "transparent";
+		  highlight.style.border = "";
 		  highlight.classList.remove("regexSearchHighlighter");
+		});
+		previousHighlighters = document.querySelectorAll(".regexSearchMatch");
+		previousHighlighters.forEach( (highlight) => {
+		  highlight.style.backgroundColor = "transparent";
+		  highlight.style.border = "";
+		  highlight.classList.remove("regexSearchMatch");
 		});
     }
     

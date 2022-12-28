@@ -1,6 +1,8 @@
 // Get what we need from HTML
 var searchButton = document.getElementById("searchButton");
 var highlightButton = document.getElementById("highlightButton");
+var nextButton = document.getElementById("nextButton");
+var previousButton = document.getElementById("previousButton");
 var resetButton = document.getElementById("resetButton");
 var copyResultButton = document.getElementById("copyResultButton");
 var saveButton_modal = document.getElementById("saveButton_modal");
@@ -23,14 +25,24 @@ var matchesCount = document.getElementById("matchesCount");
 var colorButton = document.getElementById("colorButton");
 var customColorRadio = document.getElementById("customColor");
 var customColorInput = document.getElementById("customColorInput");
+var customBorderColorRadio = document.getElementById("customBorderColor");
+var customBorderColorInput = document.getElementById("customBorderColorInput");
 var updateColorButton = document.getElementById("updateColor");
+var smallFormCheckbox = document.getElementById("smallFormCheckbox");
+var fullFormCheckbox = document.getElementById("fullFormCheckbox");
 var shiftHeld = false;
 var highlightColor = "yellow";
+var highlightBorderColor = "magenta";
+var selectedItemIndex = -1;
 //  Get last data from storage so user doesn't have to type it again and update saving model
 getCurrent();
 // Get profiles from storage
 displayProfiles();
 
+//register the Listener
+browser.tabs.executeScript(null, {
+  file: "/content_scripts/page_search.js"
+});
 
 
 regexInput.addEventListener('keyup', clickSearchButtonOnEnter)
@@ -114,10 +126,121 @@ highlightButton.addEventListener("click", (e) => {
       flags: getFlags(),
       action: "highlight",
       ignoreHTML: IgnoreHTMLCheckbox.checked,
-      highlightColor: highlightColor
+      highlightColor: highlightColor,
+      highlightBorderColor: highlightBorderColor
     });
   });
   storeCurrent();
+});
+
+nextButton.addEventListener("click", (e) => {
+
+  // Add this script to the current tab , first arguments (null) gives the current tab
+  browser.tabs.executeScript(null, {
+    file: "/content_scripts/page_search.js"
+  });
+
+  // Get current tab to connect to the Script we provided on the code above
+  var gettingActiveTab = browser.tabs.query({
+    active: true,
+    currentWindow: true
+  });
+  gettingActiveTab.then((tabs) => {
+    browser.tabs.sendMessage(tabs[0].id, {
+      regex: regexInput.value,
+      flags: getFlags(),
+      template: templateInput.value,
+      action: "next",
+      ignoreHTML: IgnoreHTMLCheckbox.checked,
+      highlightColor: highlightColor,
+      highlightBorderColor: highlightBorderColor,
+      selectedItemIndex:selectedItemIndex
+    }).then(getResponse);
+  });
+
+  // callback function when we get the response from the script on the tab
+  function getResponse(handleResponse, handleError) {
+    try {
+      var matches = handleResponse.results;
+      if (handleResponse.selectedItemIndex > 0) {
+        selectedItemIndex = handleResponse.selectedItemIndex
+        storeCurrent();
+        return
+      }
+      selectedItemIndex = handleResponse.selectedItemIndex
+      // reset the result textarea
+      if (selectedItemIndex <= 0) {
+        resultTextarea.value = "";
+        for (i = 0; i < matches.length; i++) {
+          resultTextarea.value += matches[i] + "\n";
+        }
+        if (matches.length == 0 || matches == undefined) {
+          matchesCount.innerText = "No Matches Found";
+        } else {
+          matchesCount.innerText = `${matches.length} match${matches.length > 1 ? 'es' : ''} found`;
+        }
+      }
+      // store current values in the storage so user doesn't have to type again when he comes back to popup
+      storeCurrent();
+    }
+    catch (ex) { 
+      window.eval(`console.error(ex)`);
+    }
+  }
+});
+
+previousButton.addEventListener("click", (e) => {
+
+  // Add this script to the current tab , first arguments (null) gives the current tab
+  browser.tabs.executeScript(null, {
+    file: "/content_scripts/page_search.js"
+  });
+
+  // Get current tab to connect to the Script we provided on the code above
+  var gettingActiveTab = browser.tabs.query({
+    active: true,
+    currentWindow: true
+  });
+  gettingActiveTab.then((tabs) => {
+    browser.tabs.sendMessage(tabs[0].id, {
+      regex: regexInput.value,
+      flags: getFlags(),
+      template: templateInput.value,
+      action: "previous",
+      ignoreHTML: IgnoreHTMLCheckbox.checked,
+      highlightColor: highlightColor,
+      highlightBorderColor: highlightBorderColor,
+      selectedItemIndex:selectedItemIndex
+    }).then(getResponse);
+  });
+
+  // callback function when we get the response from the script on the tab
+  function getResponse(handleResponse, handleError) {
+    try {
+      var matches = handleResponse.results;
+      if (handleResponse.selectedItemIndex != matches.length -1) {
+        selectedItemIndex = handleResponse.selectedItemIndex;
+        storeCurrent();
+        return
+      }
+      selectedItemIndex = handleResponse.selectedItemIndex
+      // reset the result textarea
+      resultTextarea.value = "";
+      for (i = 0; i < matches.length; i++) {
+        resultTextarea.value += matches[i] + "\n";
+      }
+      if (matches.length == 0 || matches == undefined) {
+        matchesCount.innerText = "No Matches Found";
+      } else {
+        matchesCount.innerText = `${matches.length} match${matches.length > 1 ? 'es' : ''} found`;
+      }
+    // store current values in the storage so user doesn't have to type again when he comes back to popup
+      storeCurrent();
+    }
+    catch (ex) { 
+      window.eval(`console.error(ex)`);
+    }
+  }
 });
 
 
@@ -183,34 +306,76 @@ copyResultButton.addEventListener("click", (e) => {
 regexInput.addEventListener("change", (e) => {
   updateSaveModal();
   storeCurrent();
+  selectedItemIndex = -1
 });
 templateInput.addEventListener("change", (e) => {
   updateSaveModal();
   storeCurrent();
+  selectedItemIndex = -1
 });
 globalCheckbox.addEventListener("change", (e) => {
   updateSaveModal();
   storeCurrent();
+  selectedItemIndex = -1
 });
 caseInsensitiveCheckbox.addEventListener("change", (e) => {
   updateSaveModal();
   storeCurrent();
+  selectedItemIndex = -1
 });
 multilineCheckbox.addEventListener("change", (e) => {
   updateSaveModal();
   storeCurrent();
+  selectedItemIndex = -1
 });
 IgnoreHTMLCheckbox.addEventListener("change", (e) => {
   updateSaveModal();
   storeCurrent();
+  selectedItemIndex = -1
 });
 resultTextarea.addEventListener("change", (e) => {
   storeCurrent();
+  selectedItemIndex = -1
 });
 
+smallFormCheckbox.addEventListener("change", (e) => {
+  smallFormCheckboxChange(e);
+});
 
+function smallFormCheckboxChange(e){
+  if (smallFormCheckbox.checked) {
+    document.querySelectorAll(".small-form").forEach((el) => {
+      el.classList.remove("small-form")
+      el.classList.add("big-form")
+    })
+    document.querySelectorAll(".full-form").forEach((el) => {
+      el.classList.remove("full-form")
+      el.classList.add("small-form")
+    })
+    fullFormCheckbox.checked=true;
+  }
+  storeCurrent();
+}
 
+fullFormCheckbox.addEventListener("change", (e) => {
+  fullFormCheckboxChange(e);
+});
 
+function fullFormCheckboxChange(e){
+  if (!fullFormCheckbox.checked) {
+    document.querySelectorAll(".small-form").forEach((el) => {
+      el.classList.remove("small-form")
+      el.classList.add("full-form")
+    })
+    document.querySelectorAll(".big-form").forEach((el) => {
+      el.classList.remove("big-form")
+      el.classList.add("small-form")
+      console.log(el)
+    })
+  }
+  smallFormCheckbox.checked =false;
+  storeCurrent();
+}
 
 // Reset Button Event
 resetButton.addEventListener("click", (e) => {
@@ -222,7 +387,8 @@ resetButton.addEventListener("click", (e) => {
   IgnoreHTMLCheckbox.checked = false;
   resultTextarea.value = "";
   matchesCount.innerText = "";
-  
+  selectedItemIndex = -1;
+  smallFormCheckbox.checked = false;
   // Remove the highlights on the page
   
   // Add this script to the current tab , first arguments (null) gives the current tab
@@ -250,7 +416,13 @@ colorButton.addEventListener("click", (e) => {
     customColorRadio.checked = true;
     customColorInput.value = highlightColor.substring(1);
   } else {
-    document.querySelector("input[value='" + highlightColor + "']").checked = true;
+    document.querySelector("input[name='color'][value='" + highlightColor + "']").checked = true;
+  }
+  if (highlightBorderColor && highlightBorderColor[0] == "#") {
+    customBorderColorRadio.checked = true;
+    customBorderColorInput.value = highlightBorderColor.substring(1);
+  } else {
+    document.querySelector("input[name='borderColor'][value='" + highlightBorderColor + "'").checked = true;
   }
 });
 
@@ -259,7 +431,11 @@ updateColorButton.addEventListener("click", (e) => {
   highlightColor = document.querySelector("input[name='color']:checked").value;
   if(highlightColor === "custom")
     highlightColor = "#" + customColorInput.value;
+  highlightBorderColor = document.querySelector("input[name='borderColor']:checked").value;
+  if(highlightBorderColor === "custom")
+    highlightBorderColor = "#" + customBorderColorInput.value;
   storeHighlightColor();
+  storeHighlightBorderColor();
 });
 
 // Update save model inputs
@@ -282,7 +458,9 @@ function storeCurrent() {
     caseInsensitiveCheckbox: caseInsensitiveCheckbox.checked,
     multilineCheckbox: multilineCheckbox.checked,
     IgnoreHTMLCheckbox: IgnoreHTMLCheckbox.checked,
-    resultTextarea: resultTextarea.value
+    resultTextarea: resultTextarea.value,
+    selectedItemIndex:selectedItemIndex,
+    smallForm: smallFormCheckbox.checked
   };
   let store = browser.storage.local.set({
     currentData
@@ -300,10 +478,13 @@ function getCurrent() {
       caseInsensitiveCheckbox: false,
       multilineCheckbox: false,
       IgnoreHTMLCheckbox: false,
-      resultTextarea: ""
+      resultTextarea: "",
+      selectedItemIndex:-1,
+      smallForm: false,
     },
 
-    highlightColor: "yellow"
+    highlightColor: "yellow",
+    highlightBorderColor: "magenta"
   });
 
   store.then(function(results) {
@@ -314,7 +495,11 @@ function getCurrent() {
     multilineCheckbox.checked = results.currentData.multilineCheckbox;
     IgnoreHTMLCheckbox.checked = results.currentData.IgnoreHTMLCheckbox;
     resultTextarea.value = results.currentData.resultTextarea;
+    selectedItemIndex = results.currentData.selectedItemIndex;
     highlightColor = results.highlightColor;
+    highlightBorderColor= results.highlightBorderColor,
+    smallFormCheckbox.checked = results.currentData.smallForm;
+    smallFormCheckboxChange("")
     updateSaveModal();
   }, onError);
 }
@@ -327,7 +512,6 @@ function addProfile(profile) {
   });
   store.then(function(results) {
     var profiles = results.profiles;
-    console.log(results.profiles);
     profiles.push(profile);
     let store = browser.storage.local.set({
       profiles
@@ -385,11 +569,15 @@ function storeHighlightColor() {
   browser.storage.local.set({ highlightColor })
     .catch(onError);
 }
+function storeHighlightBorderColor () {
+  browser.storage.local.set({ highlightBorderColor })
+    .catch(onError);
+}
 
 
 // to log errors :D
 function onError(err) {
-  console.log(err);
+  console.error(err);
 }
 
 
