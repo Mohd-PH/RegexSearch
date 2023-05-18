@@ -1,3 +1,7 @@
+import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import "../node_modules/bootstrap/dist/js/bootstrap.js";
+import "../css/style.css";
+import "./options.css";
 
 var profilesList = document.querySelector("#profilesList");
 
@@ -30,7 +34,7 @@ function displayProfiles() {
   store.then(function(results) {
     var profiles = results.profiles;
     console.log(profiles);
-    for (i = 0; i < profiles.length; i++) {
+    for (var i = 0; i < profiles.length; i++) {
       console.log(profiles[i]);
       addProfileToAList(profiles[i]);
 
@@ -95,7 +99,7 @@ function deleteProfile(profileId){
   }).then((results) =>{
     var profiles = results.profiles;
 
-    for (i = 0; i < profiles.length; i++) {
+    for (var i = 0; i < profiles.length; i++) {
       if (profileId == profiles[i].id) {
         profiles.splice(i , 1);
         updateProfiles(profiles);
@@ -113,7 +117,7 @@ function updateProfile(profileId, newName, newRegex, newGlobal, newCase, newMult
   }).then((results) =>{
     var profiles = results.profiles;
 
-    for (i = 0; i < profiles.length; i++) {
+    for (var i = 0; i < profiles.length; i++) {
       if (profileId == profiles[i].id) {
         profiles[i].name = newName;
         profiles[i].regex = newRegex;

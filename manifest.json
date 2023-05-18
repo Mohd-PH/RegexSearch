@@ -1,22 +1,18 @@
 {
-
   "manifest_version": 2,
   "name": "Regex Search",
   "version": "1.0.17",
-
   "description": "Search in HTML using Regular Expression (REGEX) and output the results using template, with saving profiles functionality, you need to know 'basic' Regular expression to benefit from this plugin",
   "homepage_url": "https://github.com/Mohd-PH/RegexSearch/",
   "icons": {
     "48": "icons/RegexSearch.svg",
     "96": "icons/RegexSearch.svg"
   },
-
   "permissions": [
     "activeTab",
     "storage",
     "clipboardWrite"
   ],
-  
   "browser_action": {
     "default_icon": "icons/RegexSearch-32.png",
     "default_title": "Regex Search",

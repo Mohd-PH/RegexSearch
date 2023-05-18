@@ -1,3 +1,9 @@
+// import "../node_modules/jquery/dist/jquery.js";
+import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import "../node_modules/bootstrap/dist/js/bootstrap.js";
+import "../css/style.css";
+import "./RegexSearch.css";
+
 // Get what we need from HTML
 var searchButton = document.getElementById("searchButton");
 var highlightButton = document.getElementById("highlightButton");
@@ -41,7 +47,7 @@ displayProfiles();
 
 //register the Listener
 browser.tabs.executeScript(null, {
-  file: "/content_scripts/page_search.js"
+  file: "/content_script.js"
 });
 
 
@@ -71,7 +77,7 @@ searchButton.addEventListener("click", (e) => {
 
   // Add this script to the current tab , first arguments (null) gives the current tab
   browser.tabs.executeScript(null, {
-    file: "/content_scripts/page_search.js"
+    file: "/content_script.js"
   });
 
   // Get current tab to connect to the Script we provided on the code above
@@ -95,7 +101,7 @@ searchButton.addEventListener("click", (e) => {
     resultTextarea.value = "";
     var matches = handleResponse.results;
 
-    for (i = 0; i < matches.length; i++) {
+    for (var i = 0; i < matches.length; i++) {
       resultTextarea.value += matches[i];
     }
     
@@ -112,7 +118,7 @@ searchButton.addEventListener("click", (e) => {
 highlightButton.addEventListener("click", (e) => {
   // Add this script to the current tab , first arguments (null) gives the current tab
   browser.tabs.executeScript(null, {
-    file: "/content_scripts/page_search.js"
+    file: "/content_script.js"
   });
 
   // Get current tab to connect to the Script we provided on the code above
@@ -137,7 +143,7 @@ nextButton.addEventListener("click", (e) => {
 
   // Add this script to the current tab , first arguments (null) gives the current tab
   browser.tabs.executeScript(null, {
-    file: "/content_scripts/page_search.js"
+    file: "/content_script.js"
   });
 
   // Get current tab to connect to the Script we provided on the code above
@@ -171,7 +177,7 @@ nextButton.addEventListener("click", (e) => {
       // reset the result textarea
       if (selectedItemIndex <= 0) {
         resultTextarea.value = "";
-        for (i = 0; i < matches.length; i++) {
+        for (var i = 0; i < matches.length; i++) {
           resultTextarea.value += matches[i] + "\n";
         }
         if (matches.length == 0 || matches == undefined) {
@@ -193,7 +199,7 @@ previousButton.addEventListener("click", (e) => {
 
   // Add this script to the current tab , first arguments (null) gives the current tab
   browser.tabs.executeScript(null, {
-    file: "/content_scripts/page_search.js"
+    file: "/content_script.js"
   });
 
   // Get current tab to connect to the Script we provided on the code above
@@ -226,7 +232,7 @@ previousButton.addEventListener("click", (e) => {
       selectedItemIndex = handleResponse.selectedItemIndex
       // reset the result textarea
       resultTextarea.value = "";
-      for (i = 0; i < matches.length; i++) {
+      for (var i = 0; i < matches.length; i++) {
         resultTextarea.value += matches[i] + "\n";
       }
       if (matches.length == 0 || matches == undefined) {
@@ -393,7 +399,7 @@ resetButton.addEventListener("click", (e) => {
   
   // Add this script to the current tab , first arguments (null) gives the current tab
   browser.tabs.executeScript(null, {
-    file: "/content_scripts/remove_highlights.js"
+    file: "/content_script.js"
   });
 
   // Get current tab to connect to the Script we provided on the code above
@@ -529,7 +535,7 @@ function displayProfiles() {
   store.then(function(results) {
     var profiles = results.profiles;
 
-    for (i = 0; i < profiles.length; i++) {
+    for (var i = 0; i < profiles.length; i++) {
       addProfileToAList(profiles[i]);
     }
   });
@@ -550,7 +556,7 @@ function getProfile(profileId) {
   store.then(function(results) {
     var profiles = results.profiles;
 
-    for (i = 0; i < profiles.length; i++) {
+    for (var i = 0; i < profiles.length; i++) {
       if (profileId == profiles[i].id) {
         regexInput.value = profiles[i].regex;
         templateInput.value = profiles[i].template;
