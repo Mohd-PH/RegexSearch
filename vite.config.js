@@ -1,18 +1,20 @@
 import { defineConfig, normalizePath } from "vite";
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import path from "node:path";
 import inject from "@rollup/plugin-inject";
 
 export default defineConfig({
+    root: "./src",
     plugins: [
         viteStaticCopy({
             targets: [
                 {
-                    src: './manifest.json',
-                    dest: '.',
+                    src: normalizePath(path.resolve(__dirname, './src/manifest.json')),
+                    dest: normalizePath(path.resolve(__dirname, './build')),
                 },
                 {
-                    src: './icons',
-                    dest: '.',
+                    src: normalizePath(path.resolve(__dirname, './src/icons')),
+                    dest: normalizePath(path.resolve(__dirname, './build')),
                 },
             ]
         }),
@@ -26,8 +28,8 @@ export default defineConfig({
         rollupOptions: {
               // https://rollupjs.org/configuration-options/
             input: [
-                "./popup/RegexSearch.html",
-                "./options/options.html",
+                "./src/popup/RegexSearch.html",
+                "./src/options/options.html",
             ],
             output:{
                 format: "es",
